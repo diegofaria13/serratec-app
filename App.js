@@ -1,21 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Text, StatusBar, TextInput } from 'react-native';
+import Title from './components/Title';
+import { Container } from './components/Container';
 
 export default function App() {
+  const [meuTexto, setMeuTexto] = useState();
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Container>
+      <Title>Serratec app</Title>
+      <Text style={{color: 'red'}}>
+        Olá Mundo!
+      </Text>
+      <TextInput
+        onChangeText={setMeuTexto}
+        value={meuTexto}
+        placeholder="Digite qualquer coisa"
+        keyboardType="default"
+      />
+      <StatusBar
+        backgroundColor="blue"
+        style="light"
+        barStyle="dark-content"
+      />
+    </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
