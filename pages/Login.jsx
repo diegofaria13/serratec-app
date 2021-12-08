@@ -40,7 +40,7 @@ const Login = () => {
 
   return (
     <Container>
-      <Title>Serratec app</Title>
+      <Title>Cervejaria Dasker</Title>
       <Input
         mx="3"
         placeholder="Seu e-mail"
@@ -67,6 +67,10 @@ const Login = () => {
       />
       <Button margin="2" size="lg" onPress={() => efetuarLogin()}>
         Login
+      </Button>
+      <Text mt='3'>É novo por aqui? Cadastre-se</Text>
+      <Button margin="2" size="lg" onPress={() => efetuarLogin()}>
+        Cadastrar
       </Button>
       {
         <Collapse isOpen={mostrarMensagemErro}>

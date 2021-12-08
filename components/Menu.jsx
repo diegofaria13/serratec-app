@@ -17,6 +17,7 @@ import React, { useContext } from "react";
 import "react-native-gesture-handler";
 import { UsuarioContext } from "../context/inex";
 import Login from "../pages/Login";
+import Alunos from "../pages/Alunos";
 
 const Drawer = createDrawerNavigator();
 
@@ -96,7 +97,7 @@ function MyDrawer({ usuario }) {
         )}
       >
         <Drawer.Screen name="Login" component={Login} />
-        <Drawer.Screen name="Alunos" component={Login} />
+        <Drawer.Screen name="Alunos" component={Alunos} />
         <Drawer.Screen name="Matérias" component={Login} />
       </Drawer.Navigator>
     </Box>
