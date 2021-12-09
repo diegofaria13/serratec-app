@@ -95,6 +95,7 @@ function MyDrawer({ usuario }) {
         drawerContent={(props) => (
         <CustomDrawerContent usuario={ usuario } {...props} />
         )}
+        screenOptions={{headerShown: usuario ? true : false}} //mostra ou nao o header da pagina
       >
         <Drawer.Screen name="Login" component={Login} />
         <Drawer.Screen name="Alunos" component={Alunos} />

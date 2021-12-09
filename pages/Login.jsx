@@ -17,7 +17,7 @@ import {
 } from "native-base";
 import { UsuarioContext } from "../context/inex";
 
-const Login = () => {
+const Login = ({navigation}) => {
   const [email, setEmail] = useState();
   const [senha, setSenha] = useState();
   const [mostrarMensagemErro, setMostrarMensagemErro] = useState(false);
@@ -32,6 +32,7 @@ const Login = () => {
       })
       .then((result) => {
         setUsuario(result.data);
+        navigation.navigate('Alunos');
       })
       .catch((erro) => {
         setMostrarMensagemErro(true);

@@ -1,14 +1,12 @@
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 import {
-  Actionsheet,
-  Box,
-  HStack,
+  Actionsheet, AlertDialog, Box, Button, HStack,
   Icon,
   Pressable,
   Spacer,
   useDisclose,
-  VStack,
+  VStack
 } from "native-base";
 import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
@@ -19,6 +17,9 @@ const Alunos = () => {
   const [alunos, setAlunos] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclose();
   const [alunoSelecionado, setAlunoSelecionado] = useState();
+  const cancelRef = React.useRef(null);
+  const [isOpenDelete, setIsOpenDelete] = React.useState(false);
+  const onCloseDelete = () => setIsOpenDelete(false);
   const URL = "https://secret-headland-69654.herokuapp.com/alunos";
 
   useEffect(() => {
@@ -36,6 +37,7 @@ const Alunos = () => {
     .delete(URL, { data: alunoSelecionado })
     .then((response) => {
       onClose();
+      setIsOpenDelete(true);
       consultarAlunos();
     });
   };
@@ -43,11 +45,12 @@ const Alunos = () => {
   const renderItem = ({ item }) => {
     const clicarAluno = () => {
       setAlunoSelecionado(item);
+      setAlunos([...alunos]); //aqui vai receber uma copia dos proprios alunos que ja existem, [e eh so uma atualizacao para mudar o estado da renderizacao e conseguir marcar o aluno selecionado na hora de comparar os ids na condicao abaixo
       onOpen();
     };
     return (
       <Box>
-        <Pressable onPress={() => clicarAluno()} bg={item.id === alunoSelecionado?.id? "gray":"white"}>
+        <Pressable onPress={() => clicarAluno()} bg={item.id === alunoSelecionado?.id? "#f7b34e":"white"}>
           <Box pl="4" pr="5" py="2">
             <HStack alignItems="center" space={3}>
               <VStack>
@@ -78,9 +81,25 @@ const Alunos = () => {
     );
   };
 
+  
+
   return (
     <>
       <SwipeListView data={alunos} renderItem={renderItem} />
+
+      <AlertDialog
+        leastDestructiveRef={cancelRef}
+        isOpen={isOpenDelete}
+        onClose={onCloseDelete}
+      >
+        <AlertDialog.Content>
+          <AlertDialog.CloseButton />
+          <AlertDialog.Header>Aluno Deletado</AlertDialog.Header>
+          <AlertDialog.Body>
+            O Aluno foi deletado com sucesso!
+          </AlertDialog.Body>
+        </AlertDialog.Content>
+      </AlertDialog>
 
       <Actionsheet isOpen={isOpen} onClose={onClose} size="full">
         <Actionsheet.Content>
@@ -137,6 +156,7 @@ const Alunos = () => {
                 <Path d="M12.0007 10.5862L16.9507 5.63623L18.3647 7.05023L13.4147 12.0002L18.3647 16.9502L16.9507 18.3642L12.0007 13.4142L7.05072 18.3642L5.63672 16.9502L10.5867 12.0002L5.63672 7.05023L7.05072 5.63623L12.0007 10.5862Z" />
               </Icon>
             }
+            onPress={() => {}}
           >
             Cancelar
           </Actionsheet.Item>
