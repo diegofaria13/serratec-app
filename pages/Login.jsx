@@ -15,14 +15,14 @@ import {
   Center,
   NativeBaseProvider,
 } from "native-base";
-import { UsuarioContext } from "../context/inex";
+import { UsuarioContext } from "../context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
   const [email, setEmail] = useState();
   const [senha, setSenha] = useState();
   const [mostrarMensagemErro, setMostrarMensagemErro] = useState(false);
-  const { setUsuario} = useContext(UsuarioContext);
-
+  const { setUsuario } = useContext(UsuarioContext);
 
   const efetuarLogin = () => {
     axios
@@ -31,8 +31,12 @@ const Login = ({navigation}) => {
         senha,
       })
       .then((result) => {
+        const usuarioEmString = JSON.stringify(result.data); //para guardar o ususario logado no no storage
+        AsyncStorage.removeItem("@usuario").then(() => {
+          AsyncStorage.setItem("@usuario", usuarioEmString);
+        });
         setUsuario(result.data);
-        navigation.navigate('Alunos');
+        navigation.navigate("Alunos");
       })
       .catch((erro) => {
         setMostrarMensagemErro(true);
@@ -69,7 +73,7 @@ const Login = ({navigation}) => {
       <Button margin="2" size="lg" onPress={() => efetuarLogin()}>
         Login
       </Button>
-      <Text mt='3'>É novo por aqui? Cadastre-se</Text>
+      <Text mt="3">É novo por aqui?</Text>
       <Button margin="2" size="lg" onPress={() => efetuarLogin()}>
         Cadastrar
       </Button>

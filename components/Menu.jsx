@@ -15,7 +15,7 @@ import {
 } from "native-base";
 import React, { useContext } from "react";
 import "react-native-gesture-handler";
-import { UsuarioContext } from "../context/inex";
+import { UsuarioContext } from "../context/index";
 import Login from "../pages/Login";
 import Alunos from "../pages/Alunos";
 
@@ -40,10 +40,11 @@ function CustomDrawerContent(props) {
       <VStack space="6" my="2" mx="1">
         <Box px="4">
           <Text bold color="gray.700">
-            {props.usuario?.nome} {/*? se nao tiver nada ele retorna undefined */}
+            {props.usuario?.nome}{" "}
+            {/*? se nao tiver nada ele retorna undefined */}
           </Text>
           <Text fontSize="14" mt="1" color="gray.500" fontWeight="500">
-          {props.usuario?.email}
+            {props.usuario?.email}
           </Text>
         </Box>
         <VStack divider={<Divider />} space="4">
@@ -93,9 +94,10 @@ function MyDrawer({ usuario }) {
     <Box safeArea flex={1}>
       <Drawer.Navigator
         drawerContent={(props) => (
-        <CustomDrawerContent usuario={ usuario } {...props} />
+          <CustomDrawerContent usuario={usuario} {...props} />
         )}
-        screenOptions={{headerShown: usuario ? true : false}} //mostra ou nao o header da pagina
+        screenOptions={{ headerShown: usuario ? true : false }} //mostra ou nao o header da pagina
+        initialRouteName={usuario ? "Alunos" : "Login"}
       >
         <Drawer.Screen name="Login" component={Login} />
         <Drawer.Screen name="Alunos" component={Alunos} />
@@ -108,7 +110,7 @@ export default function Menu() {
   const { usuario } = useContext(UsuarioContext);
   return (
     <NavigationContainer>
-      <MyDrawer usuario={usuario}/>
+      <MyDrawer usuario={usuario} />
     </NavigationContainer>
   );
 }
