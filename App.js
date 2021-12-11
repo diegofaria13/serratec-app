@@ -1,16 +1,23 @@
-import "react-native-gesture-handler";
 import { NativeBaseProvider } from "native-base";
-import React from "react";
-import { StatusBar } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StatusBar, Text } from "react-native";
+import "react-native-gesture-handler";
 import Menu from "./components/Menu";
-import Login from "./pages/Login";
-import { UsuarioProvider } from "./context/index";
+import { UsuarioProvider } from "./context/alunoIndex";
 
 export default function App() {
+
+  const [ carregando, setCarregando] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setCarregando(false);
+    }, 1000);
+  }, []);
+
   return (
     <UsuarioProvider>
       <NativeBaseProvider>
-        <Menu />
+        { !carregando ? <Menu /> : <Text>Carregando...</Text>}
         <StatusBar
           backgroundColor="orange"
           style="light"

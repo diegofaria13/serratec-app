@@ -1,5 +1,5 @@
 import { Button, Collapse, Input } from "native-base";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "react-native-gesture-handler";
 import Title from "../components/Title";
 import { Container } from "../components/Container";
@@ -15,17 +15,26 @@ import {
   Center,
   NativeBaseProvider,
 } from "native-base";
-import { UsuarioContext } from "../context";
+import { UsuarioContext } from "../context/alunoIndex";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState();
   const [senha, setSenha] = useState();
   const [mostrarMensagemErro, setMostrarMensagemErro] = useState(false);
-  const { setUsuario } = useContext(UsuarioContext);
+  const { usuario, setUsuario } = useContext(UsuarioContext);
+
+  const telaCadastro = () => {
+    navigation.navigate("Cadastrar");
+  }
+
+  useEffect(() => {
+    if(usuario) navigation.navigate("Alunos");
+  }, [usuario])
 
   const efetuarLogin = () => {
-    axios
+    if((email != "") || (senha != "") ){
+      axios
       .post("https://secret-headland-69654.herokuapp.com/logar", {
         email,
         senha,
@@ -41,6 +50,9 @@ const Login = ({ navigation }) => {
       .catch((erro) => {
         setMostrarMensagemErro(true);
       });
+    } else {
+      setMostrarMensagemErro(true);
+    }
   };
 
   return (
@@ -73,8 +85,8 @@ const Login = ({ navigation }) => {
       <Button margin="2" size="lg" onPress={() => efetuarLogin()}>
         Login
       </Button>
-      <Text mt="3">É novo por aqui?</Text>
-      <Button margin="2" size="lg" onPress={() => efetuarLogin()}>
+      <Text mt="3">É novo por aqui? </Text>
+      <Button margin="2" size="lg" onPress={() => telaCadastro()}>
         Cadastrar
       </Button>
       {

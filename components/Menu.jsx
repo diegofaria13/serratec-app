@@ -13,11 +13,14 @@ import {
   Text,
   VStack,
 } from "native-base";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "react-native-gesture-handler";
-import { UsuarioContext } from "../context/index";
+import { UsuarioContext } from "../context/alunoIndex";
 import Login from "../pages/Login";
 import Alunos from "../pages/Alunos";
+import Cadastrar from "../pages/Cadastrar";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const Drawer = createDrawerNavigator();
 
@@ -29,12 +32,47 @@ const getIcon = (screenName) => {
       return "login";
     case "Matérias":
       return "book";
+    case "Sair":
+      return "logout";
     default:
       return undefined;
   }
 };
 
 function CustomDrawerContent(props) {
+
+  const { setUsuario } = useContext(UsuarioContext);
+  const renderLogout = () => {
+    return (
+      <Pressable
+        px="5"
+        py="3"
+        rounded="md"
+        bg={"transparent"}
+        onPress={() => {
+          setUsuario(undefined);
+          AsyncStorage.removeItem("@usuario").then(() => {
+            props.navigation.navigate("Login");
+          });
+        }}
+      >
+      <HStack space="7" alignItems="center">
+          <Icon
+            // color={"#a6a4a1"}
+            size="5"
+            as={<AntDesign name={getIcon("Sair")} />}
+          />
+          <Text
+            fontWeight="500"
+            // color={"#a6a4a1"}
+          >
+            Sair
+          </Text>
+        </HStack>
+      </Pressable>
+    );
+  };
+
   return (
     <DrawerContentScrollView {...props} safeArea>
       <VStack space="6" my="2" mx="1">
@@ -83,6 +121,7 @@ function CustomDrawerContent(props) {
                 </HStack>
               </Pressable>
             ))}
+            {renderLogout()}
           </VStack>
         </VStack>
       </VStack>
@@ -100,12 +139,15 @@ function MyDrawer({ usuario }) {
         initialRouteName={usuario ? "Alunos" : "Login"}
       >
         <Drawer.Screen name="Login" component={Login} />
+        <Drawer.Screen name="Cadastrar" component={Cadastrar} />
         <Drawer.Screen name="Alunos" component={Alunos} />
         <Drawer.Screen name="Matérias" component={Login} />
       </Drawer.Navigator>
     </Box>
   );
 }
+
+
 export default function Menu() {
   const { usuario } = useContext(UsuarioContext);
   return (
