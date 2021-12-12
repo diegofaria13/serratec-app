@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { StatusBar, Text } from "react-native";
 import "react-native-gesture-handler";
 import Menu from "./components/Menu";
-import { UsuarioProvider } from "./context/alunoIndex";
+import { UsuarioProvider } from "./context/usuarioIndex";
 
 export default function App() {
 

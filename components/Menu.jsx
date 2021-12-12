@@ -15,11 +15,12 @@ import {
 } from "native-base";
 import React, { useContext, useEffect } from "react";
 import "react-native-gesture-handler";
-import { UsuarioContext } from "../context/alunoIndex";
+import { UsuarioContext } from "../context/usuarioIndex";
 import Login from "../pages/Login";
 import Alunos from "../pages/Alunos";
-import Cadastrar from "../pages/Cadastrar";
+import CadastrarUsuario from "../pages/CadastrarUsuario";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Materias from "../pages/Materias";
 
 
 const Drawer = createDrawerNavigator();
@@ -32,6 +33,8 @@ const getIcon = (screenName) => {
       return "login";
     case "Matérias":
       return "book";
+    case "Sair":
+      return "logout"
     default:
       return undefined;
   }
@@ -99,7 +102,7 @@ function CustomDrawerContent(props) {
                   props.navigation.navigate(name);
                 }}
                 key={index}
-                style={name === "Cadastrar" ? {display: 'none'} : null}
+                style={name === "Cadastrar" || name === "Login" ? {display: 'none'} : null}
               >
                 <HStack space="7" alignItems="center">
                   <Icon
@@ -138,9 +141,9 @@ function MyDrawer({ usuario }) {
         initialRouteName={usuario ? "Alunos" : "Login"}
       >
         <Drawer.Screen name="Login" component={Login} />
-        <Drawer.Screen name="Cadastrar" component={Cadastrar} />
+        <Drawer.Screen name="Cadastrar" component={CadastrarUsuario} />
         <Drawer.Screen name="Alunos" component={Alunos} />
-        <Drawer.Screen name="Matérias" component={Login} />
+        <Drawer.Screen name="Matérias" component={Materias} />
       </Drawer.Navigator>
     </Box>
   );

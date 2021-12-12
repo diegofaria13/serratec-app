@@ -15,7 +15,7 @@ import {
   Center,
   NativeBaseProvider,
 } from "native-base";
-import { UsuarioContext } from "../context/alunoIndex";
+import { UsuarioContext } from "../context/usuarioIndex";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = ({ navigation }) => {
