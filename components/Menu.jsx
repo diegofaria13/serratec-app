@@ -32,8 +32,6 @@ const getIcon = (screenName) => {
       return "login";
     case "Matérias":
       return "book";
-    case "Sair":
-      return "logout";
     default:
       return undefined;
   }
@@ -101,6 +99,7 @@ function CustomDrawerContent(props) {
                   props.navigation.navigate(name);
                 }}
                 key={index}
+                style={name === "Cadastrar" ? {display: 'none'} : null}
               >
                 <HStack space="7" alignItems="center">
                   <Icon
